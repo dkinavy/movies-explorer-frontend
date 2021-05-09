@@ -1,0 +1,139 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+  
+    box-sizing: border-box;
+    width: 100%;
+    padding: 79px 0px 20px;
+
+  }
+  
+  .footer__title {
+    margin: 0 auto 20px;
+    padding: 0;
+  
+    text-align: center;
+  
+    color: #a0a0a0;
+  
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 16px;
+  }
+  
+  .footer__copyright {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer__columns {
+    display: flex;
+    justify-content: space-between;
+  
+    padding: 20px 0 0;
+  
+    border-top: 1px #e8e8e8 solid;
+  }
+  
+  .footer__column {
+    margin-right: 20px;
+  
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 16px;
+  }
+  
+  .footer__column:last-of-type {
+    margin-right: 0;
+  }
+  
+  .footer__column-links {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer__column-item {
+    display: inline-block;
+  
+    margin: 0 20px 0 0;
+    padding: 0;
+  
+    list-style-type: none;
+  }
+  
+  .footer__column-item:last-of-type {
+    margin-right: 0;
+  }
+  
+  .footer__column-link {
+    text-decoration: none;
+  
+    color: #000;
+  }
+  
+  .footer__column-link:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  @media (max-width: 768px) {
+    .footer {
+      padding-right: 30px;
+      padding-left: 30px;
+  
+      background: #fff;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    .footer {
+      padding: 79px 10px 10px;
+    }
+  
+    .footer__title {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  
+    .footer__column {
+      margin-right: 0;
+  
+      font-size: 12px;
+      line-height: 15px;
+    }
+  
+    .footer__columns {
+      align-items: center;
+      flex-direction: column-reverse;
+  
+      margin: 0;
+      justify-items: center;
+    }
+  
+    .footer__column-item {
+      display: list-item;
+  
+      margin-right: 0;
+      margin-bottom: 12px;
+  
+      text-align: center;
+    }
+  
+    .footer__copyright {
+      margin-top: 30px;
+    }
+  
+    .footer__column-links {
+      margin-top: 10px;
+      padding: 0;
+    }
+  
+    .footer__column-link {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+  

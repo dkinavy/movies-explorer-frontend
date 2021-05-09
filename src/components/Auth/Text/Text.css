@@ -1,0 +1,29 @@
+.text {
+    margin: 16px 0 0;
+    padding: 0;
+  
+    text-align: center;
+  
+    color: #a0a0a0;
+  
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 17px;
+  }
+  
+  @media (max-width: 768px) {
+    .text {
+      margin-top: 16px;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    .text {
+      margin-top: 14px;
+  
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+  
