@@ -1,0 +1,84 @@
+.error404 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  
+    height: 80vh;
+    padding: 10px;
+  }
+  
+  .error404__info {
+    width: 100%;
+    max-width: 400px;
+  
+    text-align: center;
+  }
+  
+  .error404__title {
+    margin: 0;
+    padding: 0;
+  
+    font-size: 140px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 169px;
+  }
+  
+  .error404__description {
+    margin: 5px 0 13px;
+    padding: 0;
+  
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 19px;
+  }
+  
+  .error404__link-back {
+
+    margin: 184px 0 0 0;
+    text-decoration: none;
+    color: #3456F3;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 17px;
+  }
+  
+  .error404__link-back:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  @media (max-width: 768px) {
+    .error404__link-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      }
+  }
+  
+  @media (max-width: 320px) {
+    .error404__title {
+      font-size: 80px;
+      line-height: 97px;
+    }
+  
+    .error404__description {
+      margin: 10px 0 0;
+  
+      font-size: 12px;
+      line-height: 15px;
+    }
+  
+    .error404__link-back {
+      height: max-content;
+      margin-bottom: 30px;
+  
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+  

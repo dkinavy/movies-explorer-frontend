@@ -1,0 +1,18 @@
+.logo {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .link-logo {
+    display: flex;
+  
+    max-width: max-content;
+    max-height: max-content;
+  }
+  
+  .link-logo:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.2;
+  }
+  

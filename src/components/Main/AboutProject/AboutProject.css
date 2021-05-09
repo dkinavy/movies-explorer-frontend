@@ -1,0 +1,232 @@
+.about-project {
+
+    margin-bottom: 70px;
+    
+  }
+.about-project__descriptions {
+    display: flex;
+    flex-direction: row;
+  
+    margin: 70px 0 0;
+    
+  }
+  
+  .about-project__description {
+    display: grid;
+    grid-template-areas:
+      "about-project__description-heading"
+      "about-project__description-text";
+  
+    flex-basis: 0;
+    flex-grow: 1;
+  
+    margin-right: 40px;
+  }
+  
+  .about-project__description:last-of-type {
+    margin-right: 0;
+  }
+  .about-project__name {
+    margin: 0;
+  
+    padding: 110px 0 23px;
+
+    letter-spacing: -0.04em;
+  
+    border-bottom: 1px solid #000;
+  
+    font-size: 22px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 27px;
+    
+  }
+
+  .about-project__description-heading {
+    height: max-content;
+    margin: 0;
+    padding: 0;
+  
+    letter-spacing: -0.04em;
+  
+    font-size: 20px;
+    font-weight: normal;
+  
+    font-style: normal;
+    line-height: 24px;
+    grid-area: about-project__description-heading;
+  }
+  
+  .about-project__description-text {
+    margin: 26px 0 0;
+    padding: 0;
+  
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 20px;
+    grid-area: about-project__description-text;
+  }
+  
+  .about-project__timelines {
+    margin: 110px 0 0;
+    padding: 0;
+  }
+  
+  .about-project__timeline {
+    display: grid;
+  
+    width: 100%;
+    padding: 0;
+  
+    list-style-type: none;
+    grid-template-columns: 1fr 4fr;
+  }
+  
+  .about-project__timeline-heading {
+    margin: 0;
+    padding: 10px 14px;
+  
+    text-align: center;
+  
+    font-size: 14px;
+    line-height: 17px;
+  }
+  
+  .about-project__timeline-description {
+    display: grid;
+  
+    width: 100%;
+  
+    list-style-type: none;
+    grid-template-columns: 1fr 4fr;
+  }
+  
+  .about-project__timeline-description-text {
+    margin: 0;
+  
+    padding: 14px 14px 0;
+  
+    text-align: center;
+  
+    color: #a0a0a0;
+  
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 17px;
+  }
+  
+  .about-project_timeline_green {
+    background: #2be080;
+  }
+  
+  .about-project_timeline_grey {
+    background: #f2f2f2;
+  }
+  
+  .about-project__timeline-times {
+    display: grid;
+  
+    width: 100%;
+    height: 36px;
+    grid-template-columns: 1fr 4fr;
+  }
+  
+  @media (max-width: 768px) {
+    .about-project__description {
+      margin-right: 30px;
+    }
+  
+    .about-project__description-text {
+      margin-top: 22px;
+  
+      font-size: 12px;
+      line-height: 18px;
+    }
+  
+    .about-project__timelines {
+      margin-top: 93px;
+    }
+  
+    .about-project__timeline-heading {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  
+    .about-project__timeline-description-text {
+      padding-right: 10px;
+    }
+  }
+  
+  @media (max-width: 320px) {
+
+    .about-project {
+      margin-top:70px;
+      margin-left: 18px;
+      margin-right: 18px;
+    }
+
+    .about-project__name {
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+
+    .about-project__timelines {
+      margin-top: 60px;
+    }
+  
+    .about-project__timeline {
+      grid-template-columns: 1fr 2fr;
+    }
+  
+    .about-project__timeline-heading {
+      padding: 11px 10px;
+  
+      font-size: 11px;
+      line-height: 13px;
+    }
+  
+    .about-project__timeline-description {
+      grid-template-columns: 1fr 2fr;
+    }
+  
+    .about-project__timeline-description-text {
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+  
+      font-size: 11px;
+      line-height: 13px;
+    }
+  
+    .about-project__descriptions {
+      flex-direction: column;
+  
+      margin-top: 60px;
+    }
+  
+    .about-project__description {
+      display: block;
+  
+      margin-right: 0;
+      margin-bottom: 56px;
+    }
+  
+    .about-project__description:last-of-type {
+      margin-bottom: 0;
+    }
+  
+    .about-project__description-text {
+      margin-top: 16px;
+  
+      font-size: 11px;
+      line-height: 16px;
+    }
+  
+    .about-project__description-heading {
+      font-size: 18px;
+      line-height: 22px;
+    }
+  }
+  
