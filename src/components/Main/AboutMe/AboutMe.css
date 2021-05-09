@@ -3,11 +3,12 @@
     flex-direction: row;
     justify-content: space-between;
   
-    margin: 66px 0 100px;
+    margin: 66px 50px 100px;
   }
   .about-me__name {
     margin: 0;
-  
+    margin-left: 50px;
+    margin-right: 50px;
     padding: 110px 0 23px;
 
     letter-spacing: -0.04em;

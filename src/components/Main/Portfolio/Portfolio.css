@@ -15,7 +15,7 @@
   }
   
   .portfolio__sites {
-    margin: 50px 0 0;
+    margin: 50px 50px 0;
     padding: 0;
   }
   
@@ -76,7 +76,9 @@
   
   @media (max-width: 320px) {
     .portfolio__sites {
-      margin-top: 40px;
+      
+      margin: 50px 18px 0;
+
     }
   
     .portfolio__title {

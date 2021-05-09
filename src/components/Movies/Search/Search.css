@@ -2,7 +2,7 @@
     padding: 70px 70px 10px;
 
   }
-  
+
   .search-form__form {
     display: flex;
     overflow: hidden;
@@ -12,7 +12,7 @@
   
     border-bottom: 1px solid #E8E8E8;
   }
-  
+
 
   
   .search-form__search {
@@ -44,6 +44,16 @@
     font-style: normal;
     line-height: 34px;
   }
+  
+  /* Не могу понять почему не срабатывает перекрашивание. 
+  Если вместо формы поменять свойства кнопки, например, 
+  то все работает, а если вот так менять цвет бордерботтома - то тишина */
+  .search-form__input:focus ~.search-form__form{
+    border-bottom: 1px solid #3456F3;
+   
+  }
+
+
   
 
   

@@ -14,6 +14,7 @@ const SearchForm = () => (
                     minLength="1"
                     maxLength="100"
                     size="1"
+                    required
                 />
                 <button
                     type="button"
