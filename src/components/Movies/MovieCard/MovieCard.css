@@ -1,0 +1,124 @@
+.movies__item {
+    display: grid;
+    align-items: center;
+  
+    padding: 14px 0 0;
+  
+    list-style-type: none;
+  
+  
+    grid-auto-rows: min-content min-content 59px;
+    grid-auto-columns: auto min-content;
+    grid-column-gap: 14px;
+  
+    grid-template-areas:
+    "movies__link movies__link"
+      "movies__title movies__favorite_active"
+      "movies__duration movies__duration"
+      ;
+  }
+  
+  .movies__title {
+    /* overflow: hidden; */
+  
+    margin: 14px 0 0 0;
+
+    padding: 0;
+  
+      vertical-align:top;
+    /* white-space: nowrap; */
+    /* text-overflow: ellipsis;  */
+  
+    color: #000;
+  
+    font-size: 13px;
+    font-weight: 500;
+  
+    font-style: normal;
+    line-height: 15px;
+  }
+  
+  .movies__duration {
+    display: flex;
+    align-items: center;
+  
+    margin: 0px 0 0 0px;
+    padding: 6px 0 14px;
+  
+    color: #a0a0a0;
+  
+    font-size: 11px;
+    font-weight: normal;
+  
+    font-style: normal;
+    line-height: 13px;
+    border-top: 1px solid #E8E8E8;
+    grid-area: movies__duration;
+  }
+  
+  .movies__link {
+    display: block;
+    grid-area: movies__link;
+  
+    height: 100%;
+  }
+  
+  .movies__link:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  .movies__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  
+    cursor: pointer;
+  }
+  
+  .movies__image:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  .movies__button-favorite {
+    width: 24px;
+    height: 24px;
+    margin: 14px 0 0 0;
+    padding: 0;
+  
+    cursor: pointer;
+  
+    border: 0;
+    outline: 0;
+    background: center/contain no-repeat url(../../../images/save.svg);
+    grid-area: movies__favorite_active;
+  }
+  
+  .movies__button-favorite:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  .movies__button-favorite_delete {
+    width: 19px;
+    height: 19px;
+  
+    background: center/contain no-repeat  url('../../../images/save-delete.svg');
+  }
+  
+  /* @media (max-width: 768px) {
+    .movies__item {
+      grid-auto-rows: min-content min-content 190px;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    .movies__item {
+      grid-auto-rows: min-content min-content 168px;
+    }
+  } */
+  
