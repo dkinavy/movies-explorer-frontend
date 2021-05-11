@@ -1,0 +1,141 @@
+.search-form {
+    padding: 70px 70px 10px;
+
+  }
+
+  .search-form__form {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  
+    border-bottom: 1px solid #E8E8E8;
+  }
+
+
+  
+  .search-form__search {
+    display: flex;
+    flex: 1;
+  
+    margin: 0px 0px 15px 0px;
+
+  }
+  
+  .search-form__input {
+    flex: 1;
+  
+    box-sizing: border-box;
+    padding: 0 0 0 44px;
+    text-align: center;
+    color: #A0A0A0;
+    border: 0;
+    outline: 0;
+    background:
+      url('../../../images/search-icon.svg')
+      no-repeat 5px center;
+  
+    background-size: 34px 34px;
+  
+    font-size: 28px;
+    font-weight: normal;
+  
+    font-style: normal;
+    line-height: 34px;
+  }
+  
+  /* Не могу понять почему не срабатывает перекрашивание. 
+  Если вместо формы поменять свойства кнопки, например, 
+  то все работает, а если вот так менять цвет бордерботтома - то тишина */
+  .search-form__input:focus ~.search-form__form{
+    border-bottom: 1px solid #3456F3;
+   
+  }
+
+
+  
+
+  
+  .search-form__button {
+    display: block;
+  
+ 
+    padding: 8px 11px;
+  
+    cursor: pointer;
+  
+    text-align: center;
+  
+    color: #fff;
+    border: 0;
+  
+    border-radius: 48px;
+    outline: 0;
+  
+    background: #3456F3;
+  
+    font-size: 11px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 18px;
+  }
+  
+  .search-form__button:hover {
+    transition: opacity 0.2s linear;
+  
+    opacity: 0.6;
+  }
+  
+  @media (max-width: 768px) {
+    .search-form {
+      padding-top: 80px;
+      padding-right: 30px;
+      padding-left: 30px;
+    }
+  
+
+    .search-form__button {
+      margin: 0;
+    }
+  
+    .search-form__hr {
+      margin-top: 109px;
+    }
+  }
+
+  @media (max-width: 330px) {
+    .search-form {
+      padding: 92px 14px 0 14px;
+
+    }
+  
+    .search-form__form {
+      align-items: end;
+      flex-direction: row;
+
+      margin: 0;
+      padding: 0;
+
+    }
+  
+    .search-form__search {
+      display: flex;
+      flex-basis: 100%;
+    }
+
+    .search-form__input {
+      padding: 0;
+  text-align:start;
+ 
+      background: none;
+  
+      font-size: 14px;
+      line-height: 20px;
+    }
+  
+    .search-form__button {
+      margin: 0;
+    }
+  }
+  

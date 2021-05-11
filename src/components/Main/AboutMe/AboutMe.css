@@ -1,0 +1,155 @@
+.about-me {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+    margin: 66px 50px 100px;
+  }
+  .about-me__name {
+    margin: 0;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 110px 0 23px;
+
+    letter-spacing: -0.04em;
+  
+    border-bottom: 1px solid #000;
+  
+    font-size: 22px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 27px;
+  }
+
+
+
+  .about-me__column-info {
+    width: 100%;
+    max-width: 600px;
+    margin-right: 20px;
+  }
+  
+  .about-me__column-photo {
+    display: block;
+  
+    width: 100%;
+    max-width: 270px;
+    height: 100%;
+  
+    border-radius: 10px;
+  }
+  
+  .about-me__title {
+    margin: 0;
+    padding: 0;
+  
+    letter-spacing: -0.04em;
+  
+    font-size: 50px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 58px;
+  }
+  
+  .about-me__preview {
+    margin: 18px 0 0;
+    padding: 0;
+  
+    font-size: 18px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 20px;
+  }
+  
+  .about-me__description {
+    margin: 26px 0 99px;
+    padding: 0;
+  
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 22px;
+  }
+  
+  @media (max-width: 768px) {
+    .about-me {
+      margin-bottom: 90px;
+    }
+  
+    .about-me__title {
+      font-size: 40px;
+      line-height: 40px;
+    }
+  
+    .about-me__preview {
+      margin-top: 16px;
+  
+      font-size: 12px;
+      line-height: 18px;
+    }
+  
+    .about-me__description {
+      max-width: 364px;
+      margin-top: 20px;
+      margin-bottom: 87px;
+  
+      font-size: 12px;
+      line-height: 18px;
+    }
+  
+    .about-me__column-photo {
+      min-width: 50px;
+      max-width: 255px;
+    }
+  }
+  
+  @media (max-width: 320px) {
+
+
+    .about-me {
+      flex-direction: column-reverse;
+      margin-left: 18px;
+      margin-right: 18px;
+      margin-top: 60px;
+      margin-bottom: 69px;
+    }
+  
+    .about-me__column-info {
+      max-width: 100%;
+      margin-right: 0;
+    }
+    .about-me__name {
+
+      margin-left: 18px;
+      margin-right: 18px;
+
+    }
+
+    .about-me__title {
+      margin-top: 40px;
+  
+      font-size: 30px;
+      line-height: 36px;
+    }
+  
+    .about-me__preview {
+      margin-top: 20px;
+  
+      font-size: 11px;
+      line-height: 16px;
+    }
+  
+    .about-me__description {
+      max-width: 100%;
+      margin-top: 20px;
+      margin-bottom: 40px;
+  
+      font-size: 11px;
+      line-height: 16px;
+    }
+  
+    .about-me__column-photo {
+      max-width: 100%;
+    }
+  }
+  
