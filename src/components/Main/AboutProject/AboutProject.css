@@ -8,7 +8,8 @@
     flex-direction: row;
   
     margin: 70px 0 0;
-    
+    margin-left: 50px;
+    margin-right: 50px;
   }
   
   .about-project__description {
@@ -28,7 +29,8 @@
   }
   .about-project__name {
     margin: 0;
-  
+    margin-left: 50px;
+    margin-right: 50px;
     padding: 110px 0 23px;
 
     letter-spacing: -0.04em;
@@ -70,6 +72,8 @@
   
   .about-project__timelines {
     margin: 110px 0 0;
+    margin-left: 50px;
+    margin-right: 50px;
     padding: 0;
   }
   

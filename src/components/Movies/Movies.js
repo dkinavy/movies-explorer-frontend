@@ -19,10 +19,14 @@ const Movies = ({ saved }) => {
             duration: '1h 42m',
         };
 
+
         const moviesArray = [];
         for (let i = 1; i <= 12; i += 1) {
-            moviesArray.push({ ...data, id: i });
+            if (i === 1) moviesArray.push({ disliked: true, ...data, id: i });
+            else { moviesArray.push({ ...data, id: i }); }
+
         }
+
         setMovies(moviesArray);
     }, [saved]);
 
@@ -46,10 +50,12 @@ const Movies = ({ saved }) => {
 
 Movies.propTypes = {
     saved: PropTypes.bool,
+    disliked: PropTypes.bool,
 };
 
 Movies.defaultProps = {
     saved: false,
+    disliked: false,
 };
 
 export default Movies;

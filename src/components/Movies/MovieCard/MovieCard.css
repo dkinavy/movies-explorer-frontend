@@ -109,6 +109,13 @@
   
     background: center/contain no-repeat  url('../../../images/save-delete.svg');
   }
+
+  .movies__button-dislike {
+    width: 19px;
+    height: 19px;
+  
+    background: center/contain no-repeat  url('../../../images/save-unlike.svg');
+  }
   
   /* @media (max-width: 768px) {
     .movies__item {

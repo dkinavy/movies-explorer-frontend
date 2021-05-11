@@ -4,7 +4,7 @@ import React from 'react';
 
 const MoviesCard = ({
     movie: {
-        saved, url, image, title, alt, duration,
+        saved, url, image, title, alt, duration, disliked
     },
 }) => (
     <li className="movies__item">
@@ -28,6 +28,8 @@ const MoviesCard = ({
             aria-label={!saved ? 'Сохранить фильм' : 'Удалить из сохраненных'}
             className={`movies__button-favorite 
             ${saved ? 'movies__button-favorite_delete' : ''}
+            ${disliked ? 'movies__button-dislike' : ''}
+
             `}
         />
 
