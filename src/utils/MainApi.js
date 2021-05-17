@@ -24,17 +24,19 @@ class Api {
     return {
       ...this._headers,
       Authorization: `Bearer ${token}`,
+      //   credentials: "include",
     };
   }
 
   getUserInfo() {
     return fetch(this._baseUrl + "/users/me", {
+      method: "GET",
       headers: this.getHeader(),
     }).then(this._getResponseData);
   }
 
   signIn(email, password) {
-    return fetch(`${this._baseAuthUrl}/signin`, {
+    return fetch(`${this._baseUrl}/signin`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -53,11 +55,12 @@ class Api {
       });
   }
 
-  signUp(email, password) {
-    return fetch(`${this._baseAuthUrl}/signup`, {
+  signUp(username, email, password) {
+    return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
+        name: username,
         password: password,
         email: email,
       }),
@@ -71,19 +74,13 @@ class Api {
         }
       });
   }
-
-  getUserInfo() {
-    return fetch(this._baseUrl + "/users/me", {
-      headers: this.getHeader(),
-    }).then(this._getResponseData);
-  }
 }
 
-const yandexApi = new Api({
-  baseUrl: "http://api.movie-for-day.nomoredomains.club",
+const mainApi = new Api({
+  baseUrl: "https://api.movie-for-day.nomoredomains.club",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-export default yandexApi;
+export default mainApi;
