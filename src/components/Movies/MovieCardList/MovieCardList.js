@@ -66,12 +66,13 @@ function MoviesCardList({ isMovieAdded, isLoading, movies, onMovieSave, onMovieD
                     />
                 ))}
             </ul>
-            <ButtonMore
+            {!savedBlock && <ButtonMore
                 onClick={renderMore}
                 arialLabel="Показать больше фильмов"
             >
                 Еще
-          </ButtonMore>
+          </ButtonMore>}
+
         </>
     )
 }
