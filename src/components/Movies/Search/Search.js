@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 
 import FilterCheckbox from './FilterCheckbox/FilterCheckbox';
 
-const SearchForm = ({ onSearch, queryFilters }) => {
+const SearchForm = ({ onSearch, queryFilters, onFilterClick }) => {
     const [query, setQuery] = useState('');
     const [shortFilms, setShortFilms] = useState(false);
     // useEffect(() => {
     //     setQuery(queryFilters.query);
-    //     setShortFilms(queryFilters.shortFilms);
+    //     //   setShortFilms(queryFilters.shortFilms);
     // }, [queryFilters]);
 
     const handleSubmit = (e) => {
@@ -26,13 +26,13 @@ const SearchForm = ({ onSearch, queryFilters }) => {
         setQuery(e.target.value);
     };
 
-    const handleShortFilmsClick = ({ checked }) => {
-        setShortFilms(checked);
-        onSearch({
-            query,
-            shortFilms: checked,
-        });
-    };
+    // const handleShortFilmsClick = ({ checked }) => {
+    //     setShortFilms(checked);
+    //     onSearch({
+    //         query,
+    //         shortFilms: checked,
+    //     });
+    // };
 
     const handleFocus = (e) => {
         if (query.length === 0) {
@@ -65,7 +65,7 @@ const SearchForm = ({ onSearch, queryFilters }) => {
                 </div>
 
             </form>
-            <FilterCheckbox />
+            <FilterCheckbox onFilterClick={onFilterClick} />
         </section>)
 };
 

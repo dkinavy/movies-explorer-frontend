@@ -132,6 +132,34 @@ class Api {
     });
   };
 
+  deleteMovie(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this.getHeader(),
+      credentials: 'include',
+    }).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+    });
+  }
+  saveUserInfo(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: this.getHeader(),
+      credentials: 'include',
+
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+    });
+  }
+
 
 
 

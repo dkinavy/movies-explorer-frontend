@@ -1,66 +1,77 @@
 import './Profile.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { useHistory, } from 'react-router';
+import { Link, } from 'react-router-dom';
+import CurrentUserContext from './../../context/CurrentUserContext';
 
-import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 
-const Profile = ({ name, email }) => {
-    const [data, setData] = useState({
-        name: name,
-        email: email,
-    });
+function Profile({
+    logOutHandler, changeUserInfo, editIsSuccess, editIsFailed,
+}) {
+    const currentUser = useContext(CurrentUserContext);
+    console.log(currentUser)
+    const {
+        values,
+        setValues,
+        resetForm,
+        handleChange,
+        errors,
+        isValid,
+        setIsValid,
+    } = useFormWithValidation();
 
-    const history = useHistory();
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        setValues(currentUser);
+
+    }, [currentUser, setValues]);
+
+    const submitHandler = (e) => {
         e.preventDefault();
-        history.push('/signin');
-    };
-
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setData((prevState) => ({
-            ...prevState,
-            [id]: value,
-        }));
+        changeUserInfo(values);
     };
 
     return (
         <main className="profile">
-            <h2 className="profile__title">Привет, {data.name}!</h2>
-            <form className="profile__form" onSubmit={handleSubmit}>
+            <h2 className="profile__title">Привет, {currentUser.name}!</h2>
+            <form className="profile__form" onSubmit={submitHandler}>
                 <fieldset className="profile__fieldset">
                     <label htmlFor="name" className="profile__label">
                         Имя
             <input
                             type="text"
-                            value={data.name}
+                            value={values.name}
                             placeholder="Имя"
                             className="profile__input"
                             id="name"
-                            onChange={handleChange}
+                            // onChange={handleChange}
                             size="3"
                             required
                             minLength="2"
                             maxLength="30"
                         />
                     </label>
+
                     <label htmlFor="email" className="profile__label">
                         Почта
             <input
                             type="email"
                             className="profile__input"
                             pattern=".+@.+\.[a-z]{2,}$"
-                            value={data.email}
+                            value={values.email}
                             placeholder="E-Mail"
                             id="email"
-                            onChange={handleChange}
+                            // onChange={handleChange}
                             size="3"
                             required
                             minLength="2"
                             maxLength="30"
                         />
                     </label>
+                    <span className="profile__input-error">
+                        {errors.email}
+                    </span>
                 </fieldset>
                 <div>
                     <button

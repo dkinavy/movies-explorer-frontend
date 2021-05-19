@@ -5,14 +5,29 @@ import React from 'react';
 const MoviesCard = ({
     movie: {
         saved, url, image, name, alt, duration, durationName, disliked, id
-    }, onMovieSave, data
+    }, onMovieSave, onMovieDelete, data, savedBlock, isMovieAdded
 }) => {
+
+    const isAdded = isMovieAdded(data);
     const handleClick = () => {
-        onMovieSave(body);
+        if (!isAdded) onMovieSave(body);
+        else if (savedBlock) onMovieSave(body);
+        else {
+            console.log(isAdded, "isAdded")
+            console.log()
+            isAdded.movieId = isAdded._id
+            onMovieDelete(isAdded)
+
+
+        }
+
+
+
+
     };
-    console.log(data, "data")
+    // console.log(data, "data")
     const [body, setMovieData] = React.useState({
-        country: data.country.substring(0, 29) || 'Нет данных',
+        country: 'Нет данных',
         director: data.director.substring(0, 29) || 'Нет данных',
         duration: data.duration || 0,
         year: data.year || 'Нет данных',
@@ -20,8 +35,8 @@ const MoviesCard = ({
         image: image,
         trailer: url,
         nameRU: data.nameRU.substring(0, 29) || 'Нет данных',
-        nameEN: data.nameEN.substring(0, 29) || 'Нет данных',
-        movieId: data.id,
+        nameEN: 'Нет данных',
+        movieId: data._id || data.id,
         thumbnail: image
     })
 
@@ -67,8 +82,9 @@ const MoviesCard = ({
                 type="button"
                 aria-label={!saved ? 'Сохранить фильм' : 'Удалить из сохраненных'}
                 className={`movies__button-favorite 
-            ${saved ? 'movies__button-favorite_delete' : ''}
-            ${disliked ? 'movies__button-dislike' : ''}
+                ${isAdded && !savedBlock ? 'movies__button-dislike' : ''}
+                ${savedBlock ? 'movies__button-favorite_delete' : ''}
+            
 
             `}
                 onClick={handleClick}

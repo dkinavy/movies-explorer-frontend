@@ -2,10 +2,11 @@ import './MovieCardList.css';
 import React from 'react';
 
 import PropTypes from 'prop-types';
-
+import Preloader from '../../Preloader/Preloader';
 import MoviesCard from '../MovieCard/MovieCard';
+import ButtonMore from './../ButtonMore/ButtonMore';
 
-function MoviesCardList({ movies, onMovieSave }) {
+function MoviesCardList({ isMovieAdded, isLoading, movies, onMovieSave, onMovieDelete, savedBlock }) {
     const [currentCount, setCurrentCount] = React.useState(0);
     const [extraRow, setExtraRow] = React.useState(3);
     const [moviesToRender, setMoviesToRender] = React.useState([]);
@@ -41,24 +42,38 @@ function MoviesCardList({ movies, onMovieSave }) {
     React.useEffect(() => {
         const windowSize = window.innerWidth;
         setExtraRow(getCount(windowSize).extra);
-        const count = Math.min(movies.length, getCount(windowSize).first);
+        const count = savedBlock ? movies.length : Math.min(movies.length, getCount(windowSize).first);
         setMoviesToRender(movies.slice(0, count));
         setCurrentCount(count);
     }, [movies]);
 
     const renderMore = () => renderExtraRow();
 
-    console.log("moviesToRender", moviesToRender);
-    return (<ul className="movies-card-list">
-        {moviesToRender.map((item) => (
-            <MoviesCard
-                onMovieSave={onMovieSave}
-                key={item.id}
-                movie={item}
-                data={item}
-            />
-        ))}
-    </ul>)
+    // console.log("moviesToRender", moviesToRender);
+    return (
+        <>
+            <ul className="movies-card-list">
+
+                {moviesToRender.map((item) => (
+                    <MoviesCard
+                        savedBlock={savedBlock}
+                        onMovieSave={onMovieSave}
+                        onMovieDelete={onMovieDelete}
+                        key={item.id}
+                        movie={item}
+                        data={item}
+                        isMovieAdded={isMovieAdded}
+                    />
+                ))}
+            </ul>
+            <ButtonMore
+                onClick={renderMore}
+                arialLabel="Показать больше фильмов"
+            >
+                Еще
+          </ButtonMore>
+        </>
+    )
 }
 
 MoviesCardList.propTypes = {

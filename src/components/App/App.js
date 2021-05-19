@@ -54,14 +54,17 @@ function App() {
     },
   );
 
+  const [editIsSuccess, setEditIsSuccess] = React.useState(false);
+  const [editIsFailed, setEditIsFailed] = React.useState(false);
 
+  function isMovieAdded(movie) { return savedMovies.find((item) => item.id === movie.id) };
 
 
   const history = useHistory();
   const location = useLocation();
 
   const getCurrentUser = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('jwt');
     mainApi
       .getUserInfo(token)
       .then((userData) => {
@@ -82,21 +85,26 @@ function App() {
       mainApi
         .checkToken(token)
         .then((res) => {
-          console.log(res)
+          console.log("проверили токен", res)
           if (res) {
 
             setLoggedIn(true);
-            getCurrentUser();
+            //getCurrentUser();
+            setCurrentUser(res);
+            getSavedMovies();
+
+            setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
+            localStorage.setItem('currentUser', JSON.stringify(res));
             history.push(path);
           }
         })
         .catch((err) => {
           console.error(err);
-          localStorage.removeItem('token');
+          localStorage.removeItem('jwt');
           history.push('/');
         });
     }
-  }, []);
+  }, [isLoggedIn]);
   // React.useEffect(() => {
   //   handleTokenCheck();
   // }, []);
@@ -151,10 +159,10 @@ function App() {
         mainApi.getInitialMovies(),
       ])
         .then(([{ name, email }, items, savedItems]) => {
-          setCurrentUser({
-            name,
-            email,
-          });
+          // setCurrentUser({
+          //   name,
+          //   email,
+          // });
 
 
 
@@ -220,7 +228,7 @@ function App() {
 
     foundSavedMoviesData.forEach((savedMovie) => {
       foundMoviesArr.forEach((foundMovie) => {
-        if (foundMovie.id === savedMovie.movieId) {
+        if (foundMovie._id === savedMovie.movieId) {
           foundMovie._id = savedMovie._id;
         }
       })
@@ -242,21 +250,27 @@ function App() {
 
 
   const handleSearchMoviesData = (searchQueries = {}) => {
-    const localMoviesData = JSON.parse(localStorage.getItem('movies'));
-    if (localMoviesData) {
-      const filteredMovies = searchFilter(searchQueries, localMoviesData);
-      console.log(searchQueries)
-      console.log(filteredMovies)
-      if (filteredMovies.length === 0) {
-        setIsNoMoviesFound(true);
-      } else {
-        setIsNoMoviesFound(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      const localMoviesData = JSON.parse(localStorage.getItem('movies'));
+      if (localMoviesData) {
+        const filteredMovies = searchFilter(searchQueries, localMoviesData);
+        // console.log(searchQueries)
+        // console.log(filteredMovies)
+        if (filteredMovies.length === 0) {
+          setIsNoMoviesFound(true);
+        } else {
+          setIsNoMoviesFound(false);
+        }
+
+        localStorage.setItem('filtered-previously-movies', JSON.stringify(markAsSaved(filteredMovies)));
+
+        setMoviesData(markAsSaved(filteredMovies));
+
       }
+      setIsLoading(false);
+    }, 600);
 
-      localStorage.setItem('filtered-previously-movies', JSON.stringify(markAsSaved(filteredMovies)));
-
-      setMoviesData(markAsSaved(filteredMovies));
-    }
   };
 
 
@@ -342,8 +356,17 @@ function App() {
     setApiError("");
   }
 
+  const handleSaveMovie = (movie) => {
+    const localMoviesSaved = JSON.parse(localStorage.getItem('savedMovies'));
+    const movieSaved = localMoviesSaved.filter((i) => i.id === movie.id)[0];
+    if (movieSaved) {
+      (DeleteSavedMovie(movie));
+    } else {
+      SaveMovie(movie);
+    }
+  }
 
-  const handleSaveMovie = (data) => {
+  const SaveMovie = (data) => {
     const token = localStorage.getItem('jwt');
     if (token) {
       mainApi.saveMovie(data, token)
@@ -361,59 +384,11 @@ function App() {
     };
   };
 
-  const handleSearchSavedMoviesData = (searchQueries = {}, isAfterDelete = false) => {
+  const DeleteSavedMovie = (id) => {
     const token = localStorage.getItem('jwt');
 
     if (token) {
-      mainApi.getSavedMovies(token)
-        .then((res) => {
-          setGetSavedMoviesResStatus(res.status);
-
-          if (res.cards.length === 0) {
-            setIsSavedMoviesEmpty(true);
-            setFoundSavedMoviesData(res.cards);
-            return;
-          } else {
-            setIsSavedMoviesEmpty(false);
-          }
-
-          const savedMoviesData = res.cards.reverse();
-
-          const filteredSavedMovies = searchFilter(searchQueries, savedMoviesData);
-
-          if (filteredSavedMovies.length === 0) {
-            setIsNoSavedMoviesFound(true);
-          } else {
-            setIsNoSavedMoviesFound(false);
-          }
-          setFoundSavedMoviesData(filteredSavedMovies)
-          console.log(foundSavedMoviesData)
-        })
-        .catch((err) => {
-          console.log(err);
-
-        })
-    }
-  }
-
-  const markAsUnsaved = (id) => {
-    moviesData.forEach((movie) => {
-      if (movie.saved) {
-        if (movie._id === id) {
-          delete movie.saved;
-          delete movie._id;
-        }
-      }
-    })
-  }
-
-
-
-  const handleDeleteSavedMovie = (id) => {
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      mainApi.deleteSavedMovie(id, token)
+      mainApi.deleteMovie(id.movieId)
         .then((res) => {
           markAsUnsaved(id);
         })
@@ -429,6 +404,90 @@ function App() {
 
 
 
+
+
+  const handleSearchSavedMoviesData = (searchQueries = {}, isAfterDelete = false) => {
+
+    setIsLoading(true);
+    setTimeout(() => {
+      // const localMoviesData = JSON.parse(localStorage.getItem('movies'));
+      // if (localMoviesData) {
+      //   const filteredMovies = searchFilter(searchQueries, localMoviesData);
+      //   // console.log(searchQueries)
+      //   // console.log(filteredMovies)
+      //   if (filteredMovies.length === 0) {
+      //     setIsNoMoviesFound(true);
+      //   } else {
+      //     setIsNoMoviesFound(false);
+      //   }
+
+      //   localStorage.setItem('filtered-previously-movies', JSON.stringify(markAsSaved(filteredMovies)));
+
+      //   setMoviesData(markAsSaved(filteredMovies));
+
+
+      const token = localStorage.getItem('jwt');
+
+      if (token) {
+        mainApi.getSavedMovies(token)
+          .then((res) => {
+            setGetSavedMoviesResStatus(res.status);
+
+            if (res.cards.length === 0) {
+              setIsSavedMoviesEmpty(true);
+              setFoundSavedMoviesData(res.cards);
+              return;
+            } else {
+              setIsSavedMoviesEmpty(false);
+            }
+
+            const savedMoviesData = res.cards;
+
+            const filteredSavedMovies = searchFilter(searchQueries, savedMoviesData);
+
+            if (filteredSavedMovies.length === 0) {
+              setIsNoSavedMoviesFound(true);
+            } else {
+              setIsNoSavedMoviesFound(false);
+            }
+            setFoundSavedMoviesData(filteredSavedMovies)
+            setSavedMovies(filteredSavedMovies)
+            console.log('res', res)
+            console.log('foundSavedMoviesData', foundSavedMoviesData)
+          })
+          .catch((err) => {
+            console.log(err);
+
+          })
+      }
+
+
+      setIsLoading(false);
+    }, 600);
+
+
+
+
+
+
+  }
+
+  const markAsUnsaved = (id) => {
+    moviesData.forEach((movie) => {
+      if (movie.saved) {
+        if (movie._id === id) {
+          delete movie.saved;
+          delete movie._id;
+        }
+      }
+    })
+  }
+
+
+
+
+
+
   function handleLogin(email, password) {
     // setIsLoading(true);
 
@@ -439,12 +498,12 @@ function App() {
         mainApi.getUserInfo()
           .then((data) => {
 
-            setCurrentUser(
-              {
-                name: data.name,
-                email: data.email
-              }
-            );
+            // setCurrentUser(
+            //   {
+            //     name: data.name,
+            //     email: data.email
+            //   }
+            // );
             //console.log("ffvdfvfdvd", currentUser)
             history.push("/movies");
             setLoggedIn(true);
@@ -468,10 +527,10 @@ function App() {
           .signIn(email, password)
           .then(() => {
             setLoggedIn(true);
-            setCurrentUser({
-              name: username,
-              email: email,
-            });
+            // setCurrentUser({
+            //   name: username,
+            //   email: email,
+            // });
             history.push("/movies");
           })
           .catch((err) => {
@@ -485,7 +544,25 @@ function App() {
       })
       .finally(() => setIsLoading(false));
   };
-
+  const changeProfileData = (newUserData) => {
+    const { name, email } = newUserData;
+    mainApi.saveUserInfo(name, email)
+      .then((data) => {
+        setCurrentUser(data);
+        setEditIsSuccess(true);
+        setEditIsFailed(false);
+        setTimeout(() => {
+          setEditIsSuccess(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        setEditIsFailed(true);
+        setTimeout(() => {
+          setEditIsFailed(false);
+        }, 3000);
+      });
+  };
 
 
 
@@ -549,9 +626,12 @@ function App() {
             queryFilters={queryFilters}
             isNoMoviesFound={isNoMoviesFound}
             onMovieSave={handleSaveMovie}
-
+            onMovieDelete={DeleteSavedMovie}
+            savedBlock={false}
             onSubmit={handleSearchMoviesData}
             moviesData={markAsSaved(moviesData)}
+            isMovieAdded={isMovieAdded}
+            isLoading={isLoading}
           >
           </ProtectedRoute>
 
@@ -564,12 +644,25 @@ function App() {
             isNoSavedMoviesFound={isNoSavedMoviesFound}
             savedMovies={savedMovies}
             onSearch={handleSearchSavedMoviesData}
-
-            onDeleteSavedMovie={handleDeleteSavedMovie}
+            isLoading={isLoading}
+            // onDeleteSavedMovie={handleDeleteSavedMovie}
             getSavedMoviesResStatus={getSavedMoviesResStatus}
+            isMovieAdded={isMovieAdded}
+            savedBlock={true}
+            onMovieSave={DeleteSavedMovie}
           >
           </ProtectedRoute>
-
+          <ProtectedRoute
+            exact
+            path="/profile"
+            isLoggedIn={isLoggedIn}
+            component={Profile}
+            changeUserInfo={changeProfileData}
+            logOutHandler={onSignOut}
+            editIsSuccess={editIsSuccess}
+            editIsFailed={editIsFailed}
+            currentUser={currentUser}
+          />
 
 
 
@@ -577,11 +670,6 @@ function App() {
 
         </Switch>
 
-
-
-        <Route exact strict path="/profile">
-          <Profile name="Денис" email="dvk@ya.ru" />
-        </Route>
         <Route exact strict path="/404">
           <Err404 />
         </Route>

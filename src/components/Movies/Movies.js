@@ -4,28 +4,39 @@ import image from '../../images/movie.png';
 import MoviesCardList from './MovieCardList/MovieCardList';
 import SearchForm from './Search/Search';
 import ButtonMore from './ButtonMore/ButtonMore';
+import Preloader from '../Preloader/Preloader';
 
-const Movies = ({ movies, saved, queryFilters, onMovieSave, onSearch, moviesFiltered }) => {
+const Movies = ({ moreMovies, isLoading, isMovieAdded, savedBlock, movies, saved, queryFilters, onMovieSave, onMovieDelete, onSearch, moviesFiltered }) => {
 
-    const [setMovies, isLoading, moreMovies, , errLoadingMovies, isMoviesFiltered,
-    ] = useState([]);
+    const [filterIsOn, setFilterIsOn] = useState(false);
+
+    const onFilterClick = () => {
+        setFilterIsOn(!filterIsOn);
+    };
+
+
+    const filterShortFilm = (moviesToFilter) => moviesToFilter.filter((item) => item.duration < 40);
 
 
     return (
         <main className="movies">
             <SearchForm
                 queryFilters={queryFilters}
-                onSearch={onSearch} />
+                onSearch={onSearch}
+                onFilterClick={onFilterClick} />
+
+            {isLoading && <Preloader />}
             <MoviesCardList
-                movies={movies}
+
+                movies={filterIsOn ? filterShortFilm(movies) : movies}
                 onMovieSave={onMovieSave}
+                onMovieDelete={onMovieDelete}
+
+                savedBlock={savedBlock}
+                isMovieAdded={isMovieAdded}
             />
 
-            <ButtonMore
-                arialLabel="Показать больше фильмов"
-            >
-                Еще
-      </ButtonMore>
+
 
         </main>
     );
