@@ -349,6 +349,10 @@ function App() {
 
   function onSignOut() {
     localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("movies");
+    localStorage.removeItem("savedMovies");
     setLoggedIn(false);
     history.push("/signin");
   }
@@ -544,8 +548,8 @@ function App() {
       })
       .finally(() => setIsLoading(false));
   };
-  const changeProfileData = (newUserData) => {
-    const { name, email } = newUserData;
+  const changeProfileData = (name, email) => {
+    // const { name, email } = newUserData;
     mainApi.saveUserInfo(name, email)
       .then((data) => {
         setCurrentUser(data);
