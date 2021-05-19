@@ -74,7 +74,72 @@ class Api {
         }
       });
   }
+  checkToken(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: this.getHeader(),
+    })
+      .then(this._getResponseData)
+      .then((data) => data);
+  }
+
+  getInitialMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'GET',
+
+      headers: this.getHeader(),
+      credentials: 'include',
+    }).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+    });
+  }
+  static async checkStatus(res, status) {
+    if (res.status === status) {
+      return res.json();
+    }
+
+    const { message } = await res.json();
+
+    const error = new Error(message);
+    error.status = res.status;
+
+    throw error;
+  }
+
+  saveMovie(data, token) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: this.getHeader(),
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+    });
+  };
+
+  getSavedMovies(token) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'GET',
+      headers: this.getHeader()
+
+    }).then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      }
+    });
+  };
+
+
+
+
+
 }
+
+
+
 
 const mainApi = new Api({
   baseUrl: "https://api.movie-for-day.nomoredomains.club",

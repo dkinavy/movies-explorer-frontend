@@ -70,10 +70,10 @@
   }
   
   .movies__image {
-    width: 100%;
-    height: 100%;
+    width: 100%; 
+    height: 151px;
     object-fit: cover;
-  
+  /* min-height: 190px; */
     cursor: pointer;
   }
   
@@ -117,15 +117,5 @@
     background: center/contain no-repeat  url('../../../images/save-unlike.svg');
   }
   
-  /* @media (max-width: 768px) {
-    .movies__item {
-      grid-auto-rows: min-content min-content 190px;
-    }
-  }
-  
-  @media (max-width: 320px) {
-    .movies__item {
-      grid-auto-rows: min-content min-content 168px;
-    }
-  } */
+
   

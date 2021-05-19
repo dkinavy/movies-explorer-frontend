@@ -5,37 +5,20 @@ import MoviesCardList from './MovieCardList/MovieCardList';
 import SearchForm from './Search/Search';
 import ButtonMore from './ButtonMore/ButtonMore';
 
-const Movies = ({ saved }) => {
+const Movies = ({ movies, saved, queryFilters, onMovieSave, onSearch, moviesFiltered }) => {
 
-    const [movies, setMovies] = useState([]);
-
-    useEffect(() => {
-        const data = {
-            saved,
-            url: 'http://youtube.com',
-            image,
-            title: 'Пи Джей Харви: A dog  f fd dffd fdddddddd ',
-            alt: 'Рудбой',
-            duration: '1h 42m',
-        };
-
-
-        const moviesArray = [];
-        for (let i = 1; i <= 12; i += 1) {
-            if (i === 1) moviesArray.push({ disliked: true, ...data, id: i });
-            else { moviesArray.push({ ...data, id: i }); }
-
-        }
-
-        setMovies(moviesArray);
-    }, [saved]);
+    const [setMovies, isLoading, moreMovies, , errLoadingMovies, isMoviesFiltered,
+    ] = useState([]);
 
 
     return (
         <main className="movies">
-            <SearchForm />
+            <SearchForm
+                queryFilters={queryFilters}
+                onSearch={onSearch} />
             <MoviesCardList
                 movies={movies}
+                onMovieSave={onMovieSave}
             />
 
             <ButtonMore
@@ -48,14 +31,5 @@ const Movies = ({ saved }) => {
     );
 };
 
-Movies.propTypes = {
-    saved: PropTypes.bool,
-    disliked: PropTypes.bool,
-};
-
-Movies.defaultProps = {
-    saved: false,
-    disliked: false,
-};
 
 export default Movies;
