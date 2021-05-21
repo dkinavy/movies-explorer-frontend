@@ -11,9 +11,15 @@ export default function useFormWithValidation() {
     const { target } = event;
     const { name } = target;
     //console.log(target.id);
-    if (target.id == "password") { setPassword(event.target.value); }
-    if (target.id == "email") { setEmail(event.target.value); }
-    if (target.id == "name") { setName(event.target.value); }
+    if (target.id == "password") {
+      setPassword(event.target.value);
+    }
+    if (target.id == "email") {
+      setEmail(event.target.value);
+    }
+    if (target.id == "name") {
+      setName(event.target.value);
+    }
     setIsValid(target.closest("form").checkValidity());
     setErrors({ ...errors, [name]: target.validationMessage });
   };
@@ -22,6 +28,8 @@ export default function useFormWithValidation() {
     (newErrors = {}, newIsValid = false) => {
       setErrors(newErrors);
       setIsValid(newIsValid);
+      setEmail("");
+      setName("");
     },
     [setErrors, setIsValid]
   );
@@ -36,6 +44,8 @@ export default function useFormWithValidation() {
     password,
     name,
     email,
+    setEmail,
+    setName,
     setIsValid,
   };
 }
