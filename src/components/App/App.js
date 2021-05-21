@@ -95,6 +95,9 @@ function App() {
             getSavedMovies();
 
             setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+            setMoviesFiltered(
+              JSON.parse(localStorage.getItem("filtered-previously-movies"))
+            );
             localStorage.setItem("currentUser", JSON.stringify(res));
             history.push(path);
           }
@@ -105,21 +108,21 @@ function App() {
           history.push("/");
         });
     }
-  }, [isLoggedIn]);
+  }, []);
   // React.useEffect(() => {
   //   handleTokenCheck();
   // }, []);
 
-  function handleTokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      mainApi.checkToken(jwt).then(() => {
-        setLoggedIn(true);
+  // function handleTokenCheck() {
+  //   const jwt = localStorage.getItem("jwt");
+  //   if (jwt) {
+  //     mainApi.checkToken(jwt).then(() => {
+  //       setLoggedIn(true);
 
-        history.push("/movies");
-      });
-    }
-  }
+  //       history.push("/movies");
+  //     });
+  //   }
+  // }
   //////////////////////////////////////////////////////////////
 
   // React.useEffect(() => {
@@ -140,6 +143,7 @@ function App() {
   //   setQueryFilters({ query: '', shortFilms: false });
   // }, [location]);
 
+  ///////////////////////////////
   React.useEffect(() => {
     if (isLoggedIn) {
       setIsLoading(true);
@@ -230,6 +234,7 @@ function App() {
   const markAsSaved = (foundMoviesArr) => {
     const initialSavedMoviesIdsArr = getInitialSavedMoviesIds();
     foundMoviesArr.forEach((foundMovie) => {
+      console.log(foundMovie.id);
       foundMovie.saved = initialSavedMoviesIdsArr.some(
         (savedMovieId) => savedMovieId === foundMovie.id
       );
@@ -273,7 +278,7 @@ function App() {
           "filtered-previously-movies",
           JSON.stringify(markAsSaved(filteredMovies))
         );
-
+        setMoviesFiltered(markAsSaved(filteredMovies));
         setMoviesData(markAsSaved(filteredMovies));
       }
       setIsLoading(false);
@@ -551,38 +556,17 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
-        <Route strict path={["/", "/movies", "/saved-movies", "/profile"]}>
+        <Route
+          strict
+          exact
+          path={["/", "/movies", "/saved-movies", "/profile"]}
+        >
           <Header isLoggedIn={isLoggedIn} />
         </Route>
-        <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <Route exact strict path="/signin">
-            {!isLoggedIn && (
-              <Auth title="Рады видеть!">
-                <Login
-                  onLogin={handleLogin}
-                  onError={apiError}
-                  onClearMessages={handleClearMessages}
-                />
-              </Auth>
-            )}
-            {isLoggedIn && <Redirect to="/movies" />}
-          </Route>
 
-          <Route exact strict path="/signup">
-            {!isLoggedIn && (
-              <Auth title="Добро пожаловать!">
-                <Register
-                  onRegister={handleReg}
-                  isLoading={isLoading}
-                  onError={apiError}
-                  onClearMessages={handleClearMessages}
-                />
-              </Auth>
-            )}
-            {isLoggedIn && <Redirect to="/movies" />}
+        <Switch>
+          <Route exact strict path="/">
+            <Main />
           </Route>
 
           <ProtectedRoute
@@ -594,7 +578,8 @@ function App() {
             moreMovies={handleMoreMovies}
             onSearch={handleSearchMoviesData}
             isMoviesFiltered={isMoviesFiltered}
-            movies={markAsSaved(moviesData)}
+            movies={moviesFiltered}
+            savedMovies={savedMovies}
             queryFilters={queryFilters}
             isNoMoviesFound={isNoMoviesFound}
             onMovieSave={handleSaveMovie}
@@ -634,12 +619,39 @@ function App() {
             editIsFailed={editIsFailed}
             currentUser={currentUser}
           />
+          <Route exact strict path="/signin">
+            {!isLoggedIn && (
+              <Auth title="Рады видеть!">
+                <Login
+                  onLogin={handleLogin}
+                  onError={apiError}
+                  onClearMessages={handleClearMessages}
+                />
+              </Auth>
+            )}
+            {isLoggedIn && <Redirect to="/movies" />}
+          </Route>
+
+          <Route exact strict path="/signup">
+            {!isLoggedIn && (
+              <Auth title="Добро пожаловать!">
+                <Register
+                  onRegister={handleReg}
+                  isLoading={isLoading}
+                  onError={apiError}
+                  onClearMessages={handleClearMessages}
+                />
+              </Auth>
+            )}
+            {isLoggedIn && <Redirect to="/movies" />}
+          </Route>
+
+          <Route>
+            <Err404 />
+          </Route>
         </Switch>
 
-        <Route exact strict path="/404">
-          <Err404 />
-        </Route>
-        <Route exact strict path="/(|movies|saved-movies)">
+        <Route exact strict path={["/", "/movies", "/saved-movies"]}>
           <Footer />
         </Route>
       </div>
