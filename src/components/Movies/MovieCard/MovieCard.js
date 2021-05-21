@@ -15,27 +15,30 @@ const MoviesCard = ({
 
   const isAdded = isMovieAdded(data);
   const handleClick = () => {
-    if (!isAdded) onMovieSave(body);
-    else if (savedBlock) onMovieSave(body);
-    else {
+    if (!isAddedCard) {
+      onMovieSave(body);
+      setIsAddedCard(true);
+    } else if (savedBlock) {
+      onMovieSave(body);
+      setIsAddedCard(false);
+    } else {
       console.log(isAdded, "isAdded");
-      console.log();
-      isAdded.movieId = isAdded._id;
-      onMovieDelete(isAdded);
+      data.movieId = savedMovies.find(
+        (savedMovie) => savedMovie.movieId === data.id
+      )._id;
+      console.log("data", data);
+      onMovieDelete(data);
+      setIsAddedCard(false);
     }
   };
   //   console.log(currentUser._id);
   const [isAddedCard, setIsAddedCard] = React.useState(false);
 
   React.useEffect(() => {
-    if (!savedBlock && savedMovies.length > 0) {
+    if (!savedBlock && savedMovies?.length > 0) {
       if (!isAddedCard) {
         setIsAddedCard(
-          savedMovies.some(
-            (savedMovie) =>
-              savedMovie.movieId === data._id &&
-              savedMovie.owner === currentUser._id
-          )
+          savedMovies.some((savedMovie) => savedMovie.movieId === data.id)
         );
       } else {
         setIsAddedCard(false);
@@ -76,7 +79,7 @@ const MoviesCard = ({
   };
 
   return (
-    <li className="movies__item">
+    <li key={data._id} className="movies__item">
       <a href={url} className="movies__link" target="_blank" rel="noreferrer">
         <img src={data.image} alt={data.alt} className="movies__image" />
       </a>
@@ -86,7 +89,7 @@ const MoviesCard = ({
         type="button"
         aria-label={!saved ? "Сохранить фильм" : "Удалить из сохраненных"}
         className={`movies__button-favorite 
-                ${isAdded && !savedBlock ? "movies__button-dislike" : ""}
+                ${isAddedCard && !savedBlock ? "movies__button-dislike" : ""}
                 ${savedBlock ? "movies__button-favorite_delete" : ""}
             
 

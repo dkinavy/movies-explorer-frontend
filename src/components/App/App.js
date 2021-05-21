@@ -59,7 +59,8 @@ function App() {
   const [editIsFailed, setEditIsFailed] = React.useState(false);
 
   function isMovieAdded(movie) {
-    return savedMovies.find((item) => item.id === movie.id);
+    if (savedMovies) return savedMovies.find((item) => item.id === movie.id);
+    else return false;
   }
 
   const history = useHistory();
@@ -348,6 +349,7 @@ function App() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("movies");
     localStorage.removeItem("savedMovies");
+    localStorage.removeItem("filtered-previously-movies");
     setLoggedIn(false);
     history.push("/signin");
   }
@@ -390,6 +392,7 @@ function App() {
         .deleteMovie(id.movieId)
         .then((res) => {
           markAsUnsaved(id);
+          getSavedMovies();
         })
         .catch((err) => {
           console.log(err);
