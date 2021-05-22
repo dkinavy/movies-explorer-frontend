@@ -1,61 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import image from '../../images/movie.png';
-import MoviesCardList from './MovieCardList/MovieCardList';
-import SearchForm from './Search/Search';
-import ButtonMore from './ButtonMore/ButtonMore';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import image from "../../images/movie.png";
+import MoviesCardList from "./MovieCardList/MovieCardList";
+import SearchForm from "./Search/Search";
+import ButtonMore from "./ButtonMore/ButtonMore";
+import Preloader from "../Preloader/Preloader";
 
-const Movies = ({ saved }) => {
+const Movies = ({
+  moreMovies,
+  isLoading,
+  isMovieAdded,
+  savedBlock,
+  movies,
+  saved,
+  queryFilters,
+  onMovieSave,
+  onMovieDelete,
+  onSearch,
+  moviesFiltered,
+  savedMovies,
+}) => {
+  const [filterIsOn, setFilterIsOn] = useState(false);
 
-    const [movies, setMovies] = useState([]);
+  const onFilterClick = () => {
+    setFilterIsOn(!filterIsOn);
+  };
 
-    useEffect(() => {
-        const data = {
-            saved,
-            url: 'http://youtube.com',
-            image,
-            title: 'Пи Джей Харви: A dog  f fd dffd fdddddddd ',
-            alt: 'Рудбой',
-            duration: '1h 42m',
-        };
+  const filterShortFilm = (moviesToFilter) =>
+    moviesToFilter.filter((item) => item.duration < 40);
 
+  return (
+    <main className="movies">
+      <SearchForm
+        queryFilters={queryFilters}
+        onSearch={onSearch}
+        onFilterClick={onFilterClick}
+      />
 
-        const moviesArray = [];
-        for (let i = 1; i <= 12; i += 1) {
-            if (i === 1) moviesArray.push({ disliked: true, ...data, id: i });
-            else { moviesArray.push({ ...data, id: i }); }
-
-        }
-
-        setMovies(moviesArray);
-    }, [saved]);
-
-
-    return (
-        <main className="movies">
-            <SearchForm />
-            <MoviesCardList
-                movies={movies}
-            />
-
-            <ButtonMore
-                arialLabel="Показать больше фильмов"
-            >
-                Еще
-      </ButtonMore>
-
-        </main>
-    );
-};
-
-Movies.propTypes = {
-    saved: PropTypes.bool,
-    disliked: PropTypes.bool,
-};
-
-Movies.defaultProps = {
-    saved: false,
-    disliked: false,
+      {isLoading && <Preloader />}
+      <MoviesCardList
+        movies={filterIsOn ? filterShortFilm(movies) : movies}
+        onMovieSave={onMovieSave}
+        onMovieDelete={onMovieDelete}
+        savedBlock={savedBlock}
+        isMovieAdded={isMovieAdded}
+        savedMovies={savedMovies}
+      />
+    </main>
+  );
 };
 
 export default Movies;

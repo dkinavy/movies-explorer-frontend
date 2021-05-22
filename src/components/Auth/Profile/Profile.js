@@ -1,84 +1,112 @@
-import './Profile.css';
-import React, { useState } from 'react';
+import "./Profile.css";
+import React, { useState, useEffect, useContext } from "react";
+import AuthWithForm from "../AuthWithForm";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+import CurrentUserContext from "./../../context/CurrentUserContext";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
+import Fieldset from "../Fieldset/Fieldset";
+import Form from "../Form/Form";
 
-import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
+import Text from "../Text/Text";
 
-const Profile = ({ name, email }) => {
-    const [data, setData] = useState({
-        name: name,
-        email: email,
-    });
+function Profile({
+  logOutHandler,
+  changeUserInfo,
+  editIsSuccess,
+  editIsFailed,
+}) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log(currentUser);
+    changeUserInfo(name, email);
+  };
+  const {
+    password,
+    setName,
+    setEmail,
+    name,
+    email,
+    errors,
+    isValid,
+    handleChange,
+    resetForm,
+  } = AuthWithForm();
 
-    const history = useHistory();
+  useEffect(() => {
+    setName(currentUser.name);
+    // setIsValid(true);
+    resetForm();
+    setName(name);
+    setEmail(email);
+  }, [currentUser, setName, setEmail]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        history.push('/signin');
-    };
+  return (
+    <main className="profile">
+      <h2 className="profile__title">Привет, {currentUser.name}!</h2>
+      <Form onSubmit={handleSubmit} novalidate>
+        <Fieldset>
+          <Input
+            name="name"
+            type="name"
+            value={name}
+            placeholder="Имя"
+            className="profile__input"
+            id="name"
+            isError={errors.name}
+            required
+            onChange={handleChange}
+          />
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setData((prevState) => ({
-            ...prevState,
-            [id]: value,
-        }));
-    };
-
-    return (
-        <main className="profile">
-            <h2 className="profile__title">Привет, {data.name}!</h2>
-            <form className="profile__form" onSubmit={handleSubmit}>
-                <fieldset className="profile__fieldset">
-                    <label htmlFor="name" className="profile__label">
-                        Имя
-            <input
-                            type="text"
-                            value={data.name}
-                            placeholder="Имя"
-                            className="profile__input"
-                            id="name"
-                            onChange={handleChange}
-                            size="3"
-                            required
-                            minLength="2"
-                            maxLength="30"
-                        />
-                    </label>
-                    <label htmlFor="email" className="profile__label">
-                        Почта
-            <input
-                            type="email"
-                            className="profile__input"
-                            pattern=".+@.+\.[a-z]{2,}$"
-                            value={data.email}
-                            placeholder="E-Mail"
-                            id="email"
-                            onChange={handleChange}
-                            size="3"
-                            required
-                            minLength="2"
-                            maxLength="30"
-                        />
-                    </label>
-                </fieldset>
-                <div>
-                    <button
-                        type="submit"
-                        className="profile__button-save"
-                    >
-                        Редактировать
+          <Input
+            name="email"
+            title="E-mail"
+            type="email"
+            className="profile__input"
+            pattern=".+@.+\.[a-z]{2,}$"
+            value={email}
+            isError={errors.email}
+            placeholder="Почта"
+            id="email"
+            onChange={handleChange}
+            required
+          />
+        </Fieldset>
+        <div>
+          {editIsSuccess && (
+            <p className="profile__message-ok">Данные успешно изменены!</p>
+          )}
+          {editIsFailed && (
+            <p className="profile__link">Ошибка при изменении данных</p>
+          )}
+          <button
+            type="submit"
+            className={
+              isValid &&
+              (name !== currentUser.name || email !== currentUser.email)
+                ? "profile__button-save"
+                : "profile__button-save profile__button-save_disabled"
+            }
+            disabled={
+              (name === currentUser.name && email === currentUser.email) ||
+              !isValid
+            }
+          >
+            Редактировать
           </button>
-                    <Link
-                        to={'/signin'}
-                        className="profile__link"
-                    >
-                        Выйти из аккаунта
+          <Link
+            to={"/signin"}
+            className="profile__link"
+            onClick={logOutHandler}
+          >
+            Выйти из аккаунта
           </Link>
-                </div>
-            </form>
-        </main>
-    );
-};
+        </div>
+      </Form>
+    </main>
+  );
+}
 
 export default Profile;

@@ -1,18 +1,18 @@
-import './Header.css';
-import React, { useState, useEffect } from 'react';
+import "./Header.css";
+import React, { useState, useEffect } from "react";
 
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
 // import {
 //   HOME_LINK, projectName,
 //   SING_IN_LINK,
 //   SING_UP_LINK,
 // } from '../../../utils/config';
-import Logo from '../Logo/Logo';
-import Navigation from './Navigation/Navigation';
+import Logo from "../Logo/Logo";
+import Navigation from "./Navigation/Navigation";
 
-const Header = () => {
+const Header = ({ isLoggedIn }) => {
   const { pathname } = useLocation();
   const [isMenu, setIsMenu] = useState(false);
 
@@ -24,21 +24,15 @@ const Header = () => {
     setIsMenu(false);
   }, [pathname]);
 
-  if (pathname === '/') {
+  if ((pathname === "/") & !isLoggedIn) {
     return (
       <header className="header header_theme_blue">
         <Logo name="каталог фильмов" />
         <nav className="header__menu">
-          <Link
-            className="header__link header__link-signup"
-            to="/signup"
-          >
+          <Link className="header__link header__link-signup" to="/signup">
             Регистрация
           </Link>
-          <Link
-            className="header__link header__link-signin"
-            to="/signin"
-          >
+          <Link className="header__link header__link-signin" to="/signin">
             Войти
           </Link>
         </nav>
@@ -48,22 +42,18 @@ const Header = () => {
 
   return (
     <header className="header">
-      <Logo
-        link="/"
-        name="Каталог фильмов"
-      />
-      <div className={` ${isMenu ? 'header__menu-container' : ''}`} />
-      <Navigation
-        isMenu={isMenu}
-      />
+      <Logo link="/" name="Каталог фильмов" />
+      <div className={` ${isMenu ? "header__menu-container" : ""}`} />
+      <Navigation isMenu={isMenu} />
       <button
         type="button"
-        className={`header__button-menu ${isMenu ? 'header__button-menu-close' : ''}`}
+        className={`header__button-menu ${
+          isMenu ? "header__button-menu-close" : ""
+        }`}
         onClick={isMenuHandle}
-        aria-label={!isMenu ? 'Открыть меню' : 'Закрыть меню'}
+        aria-label={!isMenu ? "Открыть меню" : "Закрыть меню"}
       />
     </header>
-
   );
 };
 
